@@ -16,7 +16,7 @@ import pprint
 
 _LOGGER = logging.getLogger(__name__)
 
-class Dlink(object):
+class DLinkHNAP(object):
     """
     Class to access:
         * D-Link Smart Plug Switch W215
