@@ -133,7 +133,7 @@ class DLinkHNAP(object):
         return xmltodict.parse(xmlData)
         
     @property
-    def client_list(self):
+    async def client_list(self):
         """Get the current power consumption in Watt."""
         res = 'N/A'
         res = self.SOAPAction('GetClientInfo', 'ClientInfoLists')
