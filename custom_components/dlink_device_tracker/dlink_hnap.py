@@ -115,7 +115,7 @@ class DLinkHNAP(object):
                    'Cookie': 'uid={}'.format(auth[1])}
 
         try:
-            response = urlopen(Request(self.url, payload.encode(), headers))
+            response = await urlopen(Request(self.url, payload.encode(), headers))
         except (HTTPError, URLError):
             # Try to re-authenticate once
             self.authenticated = None
@@ -173,7 +173,7 @@ class DLinkHNAP(object):
 
         # Request privatekey, cookie and challenge
         try:
-            response = urlopen(Request(self.url, payload, headers))
+            response = await urlopen(Request(self.url, payload, headers))
         except URLError:
             if self._error_report is False:
                 _LOGGER.warning('Unable to open a connection to dlink switch {}'.format(self.ip))
@@ -210,7 +210,7 @@ class DLinkHNAP(object):
                    'SOAPAction': '"http://purenetworks.com/HNAP1/Login"',
                    'HNAP_AUTH': '"{}"'.format(PrivateKey),
                    'Cookie': 'uid={}'.format(Cookie)}
-        response = urlopen(Request(self.url, response_payload, headers))
+        response = await urlopen(Request(self.url, response_payload, headers))
         xmlData = response.read().decode()
         root = ET.fromstring(xmlData)
 
