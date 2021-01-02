@@ -282,9 +282,3 @@ class DLinkHNAP(object):
 
         return payload.encode()
 
-
-
-
-dl = Dlink("192.168.100.1","homogay2019!")
-pp = pprint.PrettyPrinter(indent=4)
-pp.pprint(dl.client_list)
