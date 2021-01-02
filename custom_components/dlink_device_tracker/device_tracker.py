@@ -76,9 +76,6 @@ class DLinkDeviceScanner(DeviceScanner):
             )
             raise ConnectionError("Cannot connect to D-Link router")
 
-        if not self.connection.is_connected:
-            _LOGGER.error("Error connecting %s to %s", DOMAIN, self.host)
-            raise ConnectionError("Cannot connect to D-Link router")
 
     async def async_scan_devices(self):
         """Scan for new devices and return a list with found device IDs."""
