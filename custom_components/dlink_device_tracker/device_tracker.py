@@ -86,7 +86,7 @@ class DLinkDeviceScanner(DeviceScanner):
         """Return the name of the given device or None if we don't know."""
         if device not in self.last_results:
             return None
-        return self.last_results[device].name
+        return self.last_results[device]['name']
 
     async def async_update_info(self):
         """Ensure the information from the D-Link router is up to date.
