@@ -144,7 +144,7 @@ class DLinkHNAP(object):
             result[client["MacAddress"]] = {
                 'name': client["DeviceName"],
                 'nickName': client["NickName"],
-                'status': client["Type"] == "OFFLINE" and 0 or 1,
+                'is_connected': client["Type"] == "OFFLINE" and 0 or 1,
                 'mac': client["MacAddress"]
             }
         return result
