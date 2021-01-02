@@ -18,20 +18,7 @@ _LOGGER = logging.getLogger(__name__)
 
 class DLinkHNAP(object):
     """
-    Class to access:
-        * D-Link Smart Plug Switch W215
-        * D-Link Smart Plug DSP-W110
-
-    Usage example when used as library:
-    p = SmartPlug("192.168.0.10", ('admin', '1234'))
-
-    # change state of plug
-    p.state = OFF
-    p.state = ON
-
-    # query and print current state of plug
-    print(p.state)
-
+    HNAP integration from @LinuxChristian https://github.com/LinuxChristian/pyW215
     Note:
     The library is greatly inspired by the javascript library by @bikerp (https://github.com/bikerp).
     Class layout is inspired by @rkabadi (https://github.com/rkabadi) for the Edimax Smart plug.
