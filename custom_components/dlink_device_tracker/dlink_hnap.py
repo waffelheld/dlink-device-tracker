@@ -78,7 +78,7 @@ class DLinkHNAP(object):
         </soap:Envelope>
                '''.format(Action, params, Action)
 
-    def SOAPAction(self, Action, responseElement, params="", recursive=False):
+    async def SOAPAction(self, Action, responseElement, params="", recursive=False):
         """Generate the SOAP action call.
 
         :type Action: str
@@ -136,7 +136,7 @@ class DLinkHNAP(object):
     async def client_list(self):
         """Get the current power consumption in Watt."""
         res = 'N/A'
-        res = self.SOAPAction('GetClientInfo', 'ClientInfoLists')
+        res = await self.SOAPAction('GetClientInfo', 'ClientInfoLists')
         clientsRaw = res["soap:Envelope"]["soap:Body"]["GetClientInfoResponse"]["ClientInfoLists"]["ClientInfo"]
         
         result = {}

@@ -65,7 +65,7 @@ class DLinkDeviceScanner(DeviceScanner):
         """Initialize connection to the router."""
         # Test the router is accessible.
         try:
-            data = await self.connection.client_list()
+            data = self.connection.client_list()
             self.success_init = data is not None
         except OSError as ex:
             _LOGGER.warning(
