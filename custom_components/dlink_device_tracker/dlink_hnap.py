@@ -158,14 +158,14 @@ class DLinkHNAP(object):
         res = self.SOAPAction('GetClientInfo', 'ClientInfoLists')
         clientsRaw = res["soap:Envelope"]["soap:Body"]["GetClientInfoResponse"]["ClientInfoLists"]["ClientInfo"]
         
-        result = []
+        result = {}
         for client in clientsRaw :
-            result.append({
+            result[client["DeviceName"]] = {
                 'name': client["DeviceName"],
                 'nickName': client["NickName"],
                 'status': client["Type"] == "OFFLINE" and 0 or 1,
                 'mac': client["MacAddress"]
-            })
+            }
         return result
             
         

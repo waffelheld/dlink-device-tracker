@@ -65,7 +65,7 @@ class DLinkDeviceScanner(DeviceScanner):
         """Initialize connection to the router."""
         # Test the router is accessible.
         try:
-            data = await self.connection.async_get_connected_devices()
+            data = await self.connection.client_list()
             self.success_init = data is not None
         except OSError as ex:
             _LOGGER.warning(
@@ -98,7 +98,7 @@ class DLinkDeviceScanner(DeviceScanner):
         _LOGGER.debug("Checking D-Link, async_update_info")
 
         try:
-            self.last_results = await self.connection.async_get_connected_devices()
+            self.last_results = await self.connection.client_list()
             _LOGGER.debug("Checking D-Link, got %d results", len(self.last_results))
             if self._connect_error:
                 self._connect_error = False
