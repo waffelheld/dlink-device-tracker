@@ -128,12 +128,13 @@ class DLinkHNAP(object):
         
         result = {}
         for client in clientsRaw :
-            result[client["MacAddress"]] = {
-                'name': client["DeviceName"],
-                'nickName': client["NickName"],
-                'is_connected': client["Type"] == "OFFLINE" and 0 or 1,
-                'mac': client["MacAddress"]
-            }
+            if client["Type"] != "OFFLINE":
+                result[client["MacAddress"]] = {
+                    'name': client["DeviceName"],
+                    'nickName': client["NickName"],
+                    'is_connected': client["Type"] == "OFFLINE" and 0 or 1,
+                    'mac': client["MacAddress"]
+                }
         return result
             
         
