@@ -131,25 +131,6 @@ class DLinkHNAP(object):
         xmlData = response.read().decode()
         
         return xmltodict.parse(xmlData)
-        #return xmlData
-        root = ET.fromstring(xmlData)
-        return root
-        # Get value from device
-        try:
-            value = root.find('.//{http://purenetworks.com/HNAP1/}%s' % (responseElement))
-        except AttributeError:
-            _LOGGER.warning("Unable to find %s in response." % responseElement)
-            return None
-
-        print(value)
-        if value is None and self._error_report is False:
-            _LOGGER.warning("Could not find %s in response." % responseElement)
-            self._error_report = True
-            return None
-
-        self._error_report = False
-        print(value)
-        return value
         
     @property
     def client_list(self):
@@ -160,7 +141,7 @@ class DLinkHNAP(object):
         
         result = {}
         for client in clientsRaw :
-            result[client["DeviceName"]] = {
+            result[client["MacAddress"]] = {
                 'name': client["DeviceName"],
                 'nickName': client["NickName"],
                 'status': client["Type"] == "OFFLINE" and 0 or 1,
@@ -281,4 +262,3 @@ class DLinkHNAP(object):
         '''.format(self.user, login_pwd)
 
         return payload.encode()
-
