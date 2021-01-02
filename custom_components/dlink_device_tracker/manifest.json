@@ -1,0 +1,8 @@
+{
+  "domain": "dlink_device_tracker",
+  "name": "D-Link Device Tracker",
+  "documentation": "https://github.com/waffelheld/dlink-device-tracker",
+  "issue_tracker": "https://github.com/waffelheld/dlink-device-tracker/issues",
+  "requirements": [],
+  "codeowners": ["@waffelheld"]
+}
