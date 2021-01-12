@@ -40,7 +40,7 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend(
 
 async def async_get_scanner(hass, config):
     """Validate the configuration and return a D-Link scanner."""
-    scanner = DLinkDeviceScanner(config[DOMAIN])
+    scanner = DLinkDeviceScanner(config[DOMAIN],hass)
     await scanner.async_connect()
     return scanner if scanner.success_init else None
 
@@ -49,24 +49,21 @@ async def async_get_scanner(hass, config):
 class DLinkDeviceScanner(DeviceScanner):
     """This class queries a router running D-Link firmware."""
 
-    def __init__(self, config):
+    def __init__(self, config, hass):
         """Initialize the scanner."""
         self.last_results = {}
         self.success_init = False
         self._connect_error = False
         self.host = config[CONF_HOST]
-        self.connection = DLinkHNAP(
-            config[CONF_HOST],
-            config.get(CONF_PASSWORD, "")
-        )
+        self.connection = DLinkHNAP(config[CONF_HOST], config.get(CONF_PASSWORD), hass)
         _LOGGER.info("Starting D-Link scanner, host %s", self.host)
 
     async def async_connect(self):
         """Initialize connection to the router."""
         # Test the router is accessible.
         try:
-            data = self.connection.client_list
-            self.success_init = data is not None
+            data = await self.connection.auth()
+            self.success_init = self.connection.get_authenticated is not None
         except OSError as ex:
             _LOGGER.warning(
                 "Error [%s] connecting %s to %s.",
