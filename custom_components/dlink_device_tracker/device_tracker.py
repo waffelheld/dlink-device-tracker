@@ -92,13 +92,15 @@ class DLinkDeviceScanner(DeviceScanner):
         _LOGGER.debug("Checking D-Link, async_update_info")
 
         try:
+            await self.connection.auth()
             self.last_results = await self.connection.client_list
+            #_LOGGER.warning(self.last_results)
             _LOGGER.debug("Checking D-Link, got %d results", len(self.last_results))
             if self._connect_error:
                 self._connect_error = False
                 _LOGGER.info("Reconnected to D-Link router for device update")
 
-        except OSError as err:
+        except Exception as err:
             if not self._connect_error:
                 self._connect_error = True
                 _LOGGER.error(

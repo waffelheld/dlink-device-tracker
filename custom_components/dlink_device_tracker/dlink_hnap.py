@@ -29,7 +29,7 @@ class DLinkHNAP(object):
         self.password = password
         self.authenticated = None
         self._error_report = False
-        self.session = async_get_clientsession(hass)
+        self.session = async_create_clientsession(hass)
         #self.model_name = self.SOAPAction(Action="GetDeviceSettings", responseElement="ModelName", params="")
         
     
@@ -85,12 +85,10 @@ class DLinkHNAP(object):
                    'SOAPAction': '"http://purenetworks.com/HNAP1/{}"'.format(Action),
                    'HNAP_AUTH': '{}'.format(AUTHKey),
                    'Cookie': 'uid={}'.format(auth[1])}
-        _LOGGER.warning(headers)
 
         async with self.session.post(self.url, data=payload, headers=headers) as response:
           #response = urlopen(Request(self.url, payload.encode(), headers))
           xmlData = await response.text()
-          #_LOGGER.warning(xmlData)
           return xmltodict.parse(xmlData)
         
     @property
@@ -138,9 +136,6 @@ class DLinkHNAP(object):
         
         async with self.session.post(self.url, data=payload, headers=headers) as response:
           xmlData = await response.text()
-          #response = urlopen(Request(self.url, payload, headers))
-          #_LOGGER.warning(response.read().decode())
-          #_LOGGER.warning(response)
           root = ET.fromstring(xmlData)
 
           # Find responses
@@ -150,7 +145,7 @@ class DLinkHNAP(object):
 
           if (
                   ChallengeResponse == None or CookieResponse == None or PublickeyResponse == None) and self._error_report is False:
-              _LOGGER.warning("Failed to receive initial authentication from smartplug.")
+              _LOGGER.warning("Failed to receive initial authentication from router.")
               self._error_report = True
               return
 
@@ -175,7 +170,6 @@ class DLinkHNAP(object):
           async with self.session.post(self.url, data=response_payload, headers=headers) as response:
             xmlData = await response.text()
             root = ET.fromstring(xmlData)
-            #_LOGGER.warning(xmlData)
 
             # Find responses
             login_status = root.find('.//{http://purenetworks.com/HNAP1/}LoginResult').text.lower()
@@ -187,6 +181,7 @@ class DLinkHNAP(object):
 
             self._error_report = False  # Reset error logging
             self.authenticated = (PrivateKey, Cookie)
+            return (PrivateKey, Cookie)
 
     def initial_auth_payload(self):
         """Return the initial authentication payload."""
