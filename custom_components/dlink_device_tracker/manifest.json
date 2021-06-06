@@ -4,6 +4,6 @@
   "documentation": "https://github.com/waffelheld/dlink-device-tracker",
   "issue_tracker": "https://github.com/waffelheld/dlink-device-tracker/issues",
   "requirements": [],
-  "codeowners": ["@waffelheld"]
+  "codeowners": ["@waffelheld"],
   "version": "0.1.0"
 }
